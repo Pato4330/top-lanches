@@ -30,9 +30,9 @@
         </a>
 
         <nav class="main-nav" aria-label="Navegação principal">
-          <a href="#cardapio">Cardápio</a>
-          <a href="#combos-destaque" id="nav-combos-link">Combos</a>
-          <a href="#sobre">Sobre</a>
+          <a href="#cardapio" id="nav-menu-link">Cardápio</a>
+          <a href="#cat-combos" id="nav-combos-link">Combos</a>
+          <a href="#sobre" id="nav-about-link">Sobre</a>
         </nav>
 
         <div class="header-actions">
@@ -50,6 +50,64 @@
       </div>
     </header>
 
+    <!-- Dedicated Product Detail View (R1) -->
+    <section id="product-detail-view" class="product-detail-view hidden" aria-label="Detalhes do produto">
+      <div class="container">
+        <div class="detail-topbar">
+          <button type="button" id="back-to-menu-btn" class="btn btn-outline btn-sm">
+            ← Voltar ao cardápio
+          </button>
+          <span id="detail-breadcrumb" class="detail-breadcrumb">Cardápio</span>
+        </div>
+
+        <article id="product-detail-card" class="product-detail-card">
+          <div class="product-detail-media">
+            <img id="detail-product-image" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" alt="Detalhe do produto" />
+            <span id="detail-product-badge" class="product-badge hidden"></span>
+            <div id="detail-sold-out-overlay" class="sold-out-overlay hidden">Esgotado</div>
+          </div>
+
+          <div class="product-detail-info">
+            <div class="detail-meta-row">
+              <span id="detail-product-category" class="product-category-label"></span>
+              <span id="detail-availability-badge" class="availability-pill available">Disponível</span>
+            </div>
+
+            <h1 id="detail-product-name"></h1>
+            <div id="detail-product-price" class="product-detail-price"></div>
+            <p id="detail-product-description" class="product-detail-desc"></p>
+
+            <div class="customization-box">
+              <div class="customization-header">
+                <strong id="detail-custom-prompt">Gostaria de retirar algo?</strong>
+                <small>Toque nos ingredientes para retirar ou deixe uma observação.</small>
+              </div>
+              <div id="detail-removal-options" class="removal-chips" role="group" aria-label="Opções de personalização">
+                <!-- Rendered dynamically -->
+              </div>
+              <div class="form-group">
+                <label for="detail-product-notes">Observações do item (opcional)</label>
+                <textarea id="detail-product-notes" rows="2" maxlength="160" placeholder="Ex: ponto da carne, molho à parte, sem sal..."></textarea>
+              </div>
+            </div>
+
+            <div class="product-detail-actions">
+              <div class="qty-stepper qty-stepper-lg" aria-label="Quantidade do item">
+                <button type="button" id="detail-qty-dec" aria-label="Diminuir quantidade">−</button>
+                <span id="detail-qty-value">1</span>
+                <button type="button" id="detail-qty-inc" aria-label="Aumentar quantidade">+</button>
+              </div>
+
+              <button type="button" id="detail-add-to-cart-btn" class="btn btn-primary btn-lg detail-add-btn">
+                Adicionar ao Pedido
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div id="store-home-content">
     <!-- Hero Section -->
     <section class="hero">
       <div class="container hero-grid">
@@ -83,12 +141,12 @@
         </div>
 
         <div class="hero-visual">
-          <div class="hero-image-card">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80" alt="Top Bacon Duplo Smash Burger da Top Lanches" />
+          <div id="hero-featured-card" class="hero-image-card" role="button" tabindex="0" aria-label="Ver detalhes do destaque Top Bacon Duplo">
+            <img id="hero-featured-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80" alt="Top Bacon Duplo Smash Burger da Top Lanches" />
             <div class="hero-floating-tag">
               <span class="tag-kicker">Mais Pedido da Semana</span>
-              <strong>Top Bacon Duplo</strong>
-              <span class="tag-price">R$ 36,90</span>
+              <strong id="hero-featured-name">Top Bacon Duplo</strong>
+              <span id="hero-featured-price" class="tag-price">R$ 36,90</span>
             </div>
           </div>
         </div>
@@ -114,7 +172,7 @@
           <!-- Rendered dynamically -->
         </div>
 
-        <div id="menu-grid" class="menu-grid">
+        <div id="menu-grid" class="menu-sections">
           <!-- Rendered dynamically -->
         </div>
 
@@ -172,6 +230,7 @@
         </div>
       </div>
     </footer>
+    </div><!-- /#store-home-content -->
 
     <!-- Floating Mobile Cart Bar -->
     <div id="mobile-cart-bar" class="mobile-cart-bar hidden">
@@ -515,7 +574,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="product-price">Preço (R$) *</label>
-            <input type="number" id="product-price" step="0.01" min="0.50" required placeholder="32.90" />
+            <input type="text" inputmode="decimal" id="product-price" required placeholder="32.90" />
           </div>
           <div class="form-group">
             <label for="product-badge">Selo / Destaque</label>
@@ -533,6 +592,17 @@
         <div class="form-group">
           <label for="product-description">Descrição *</label>
           <textarea id="product-description" rows="3" required placeholder="Descreva os ingredientes do produto..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-custom-prompt">Pergunta de Personalização</label>
+            <input type="text" id="product-custom-prompt" placeholder="Gostaria de retirar algo?" />
+          </div>
+          <div class="form-group">
+            <label for="product-custom-options">Opções para retirar (separadas por vírgula)</label>
+            <input type="text" id="product-custom-options" placeholder="Ex: Cebola, Tomate, Alface, Picles" />
+          </div>
         </div>
 
         <div class="form-row">
