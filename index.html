@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Top Lanches — Burgers Artesanais & Delivery</title>
-  <meta name="description" content="MVP estático da lanchonete Top Lanches com cardápio interativo, pedidos online e painel administrativo." />
+  <title>Top Lanches — Lanches Clássicos & Delivery</title>
+  <meta name="description" content="MVP estático da lanchonete Top Lanches com cardápio de lanches clássicos em lista, pedidos online e painel administrativo." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -25,7 +26,7 @@
           <span class="brand-mark" aria-hidden="true">🔥</span>
           <span class="brand-text">
             <strong>Top Lanches</strong>
-            <small>Burgers Artesanais</small>
+            <small>Lanches Clássicos</small>
           </span>
         </a>
 
@@ -80,14 +81,14 @@
             <div class="customization-box">
               <div class="customization-header">
                 <strong id="detail-custom-prompt">Gostaria de retirar algo?</strong>
-                <small>Toque nos ingredientes para retirar ou deixe uma observação.</small>
+                <small>Marque os ingredientes que deseja retirar ou deixe uma observação.</small>
               </div>
-              <div id="detail-removal-options" class="removal-chips" role="group" aria-label="Opções de personalização">
+              <div id="detail-removal-options" class="removal-checkboxes" role="group" aria-label="Opções de personalização">
                 <!-- Rendered dynamically -->
               </div>
               <div class="form-group">
                 <label for="detail-product-notes">Observações do item (opcional)</label>
-                <textarea id="detail-product-notes" rows="2" maxlength="160" placeholder="Ex: ponto da carne, molho à parte, sem sal..."></textarea>
+                <textarea id="detail-product-notes" rows="2" maxlength="160" placeholder="Ex: pão bem passado, maionese à parte, sem sal..."></textarea>
               </div>
             </div>
 
@@ -108,51 +109,6 @@
     </section>
 
     <div id="store-home-content">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="status-pill">
-            <span class="status-dot"></span>
-            Aberto agora • Entrega em 30–45 min
-          </div>
-          <h1>Hambúrguer artesanal de verdade, quente na sua porta.</h1>
-          <p class="hero-subtitle">
-            Blend bovino 100% selecionado, pão brioche selado na manteiga e molhos feitos na casa todos os dias. Escolha no cardápio e faça seu pedido em segundos.
-          </p>
-          <div class="hero-cta">
-            <a href="#cardapio" class="btn btn-primary btn-lg">Ver Cardápio</a>
-            <button type="button" id="hero-combo-btn" class="btn btn-outline btn-lg">Explorar Combos</button>
-          </div>
-          <div class="hero-stats">
-            <div class="hero-stat">
-              <strong>4,9 ★</strong>
-              <span>1.280+ avaliações</span>
-            </div>
-            <div class="hero-stat">
-              <strong>+18 mil</strong>
-              <span>pedidos entregues</span>
-            </div>
-            <div class="hero-stat">
-              <strong>R$ 6,90</strong>
-              <span>taxa fixa delivery</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <div id="hero-featured-card" class="hero-image-card" role="button" tabindex="0" aria-label="Ver detalhes do destaque Top Bacon Duplo">
-            <img id="hero-featured-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80" alt="Top Bacon Duplo Smash Burger da Top Lanches" />
-            <div class="hero-floating-tag">
-              <span class="tag-kicker">Mais Pedido da Semana</span>
-              <strong id="hero-featured-name">Top Bacon Duplo</strong>
-              <span id="hero-featured-price" class="tag-price">R$ 36,90</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Menu Section -->
     <main id="cardapio" class="menu-section">
       <div class="container">
@@ -190,7 +146,7 @@
           <article class="feature-card">
             <div class="feature-icon">🥩</div>
             <h3>Preparado na Hora</h3>
-            <p>Nada de lanche pronto na estufa. Seu burger vai para a chapa somente quando o pedido entra na cozinha.</p>
+            <p>Nada de lanche pronto na estufa. Seu lanche vai para a chapa somente quando o pedido entra na cozinha.</p>
           </article>
           <article class="feature-card">
             <div class="feature-icon">🛵</div>
@@ -214,7 +170,7 @@
             <span class="brand-mark" aria-hidden="true">🔥</span>
             <span class="brand-text">
               <strong>Top Lanches</strong>
-              <small>Burgers Artesanais</small>
+              <small>Lanches Clássicos</small>
             </span>
           </div>
           <p class="footer-desc">
@@ -374,7 +330,7 @@
             <div class="toolbar-actions">
               <select id="admin-product-category-filter" class="input-select" aria-label="Filtrar produtos por categoria">
                 <option value="Todos">Todas as categorias</option>
-                <option value="Hambúrgueres">Hambúrgueres</option>
+                <option value="Lanches Clássicos">Lanches Clássicos</option>
                 <option value="Combos">Combos</option>
                 <option value="Porções">Porções</option>
                 <option value="Bebidas">Bebidas</option>
@@ -558,12 +514,12 @@
         <div class="form-row">
           <div class="form-group">
             <label for="product-name">Nome do Produto *</label>
-            <input type="text" id="product-name" required placeholder="Ex: Top Cheddar Duplo" />
+            <input type="text" id="product-name" required placeholder="Ex: X-Bacon Especial" />
           </div>
           <div class="form-group">
             <label for="product-category">Categoria *</label>
             <select id="product-category" required>
-              <option value="Hambúrgueres">Hambúrgueres</option>
+              <option value="Lanches Clássicos">Lanches Clássicos</option>
               <option value="Combos">Combos</option>
               <option value="Porções">Porções</option>
               <option value="Bebidas">Bebidas</option>
@@ -609,14 +565,19 @@
           <div class="form-group">
             <label for="product-image-preset">Imagem do Catálogo</label>
             <select id="product-image-preset">
-              <option value="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80">Double Smash Bacon (Stock)</option>
-              <option value="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80">Burger Clássico (Stock)</option>
-              <option value="https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=800&q=80">Crispy Chicken Burger (Stock)</option>
-              <option value="https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80">Smash Cheddar (Stock)</option>
-              <option value="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=80">Combo Burger + Fritas (Stock)</option>
-              <option value="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80">Batatas Fritas (Stock)</option>
-              <option value="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=800&q=80">Milkshake Chocolate (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80">X-Burguer Clássico (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80">X-Salada Tradicional (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1683882330385-e9270342b306?auto=format&fit=crop&w=800&q=80">X-Bacon (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1559671743-c67a25c1c665?auto=format&fit=crop&w=800&q=80">X-Egg (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1700835880369-467ebff9d324?auto=format&fit=crop&w=800&q=80">X-Tudo (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1669661825279-280c2df3a3a3?auto=format&fit=crop&w=800&q=80">Cachorro-Quente (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1788843304341-7edbe347ba66?auto=format&fit=crop&w=800&q=80">Misto Quente na Chapa (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=80">Combo Lanche + Fritas (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80">Batata Frita (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1630825533949-74f62f54553a?auto=format&fit=crop&w=800&q=80">Anéis de Cebola (Stock)</option>
               <option value="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80">Refrigerante Gelado (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=800&q=80">Suco de Laranja (Stock)</option>
+              <option value="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=800&q=80">Milk-Shake Tradicional (Stock)</option>
               <option value="custom">URL Personalizada...</option>
             </select>
           </div>

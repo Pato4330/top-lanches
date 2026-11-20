@@ -5,9 +5,9 @@ Site estático demonstrativo (MVP) desenvolvido para a lanchonete **Top Lanches*
 ## ✨ Funcionalidades
 
 ### Loja / Cardápio
-- **Visual em tema claro** de alto contraste e layout responsivo para desktop e celular.
-- **Cardápio dividido por seções** (*Hambúrgueres, Combos, Porções, Bebidas*), com busca em tempo real e abas de filtro/navegação por categoria.
-- **Tela dedicada para cada lanche:** ao selecionar qualquer item do cardápio (ou o destaque principal), abre-se uma visualização própria com foto, descrição, disponibilidade, quantidade e área de personalização (*"Gostaria de retirar algo?"* + observações livres), além do botão para voltar ao cardápio.
+- **Visual em tema claro** de alto contraste, entrada direta no cardápio em formato de listas e layout responsivo para desktop e celular.
+- **Cardápio clássico dividido por seções** (*Lanches Clássicos, Combos, Porções, Bebidas*), com busca em tempo real e abas de filtro/navegação por categoria.
+- **Tela dedicada para cada lanche:** ao selecionar qualquer item da lista do cardápio, abre-se uma visualização própria em cartão arredondado com foto, descrição, disponibilidade, quantidade e área de personalização com caixas de seleção (*"Gostaria de retirar algo?"* + observações livres), além do botão para voltar ao cardápio.
 - **Carrinho inteligente por personalização:** combinações diferentes do mesmo lanche aparecem como itens separados no carrinho e acompanham o resumo do pedido finalizado e o histórico no painel admin.
 - Escolha entre **Entrega** (taxa fixa) ou **Retirada no Balcão** (grátis), com barra flutuante de pedido no celular.
 

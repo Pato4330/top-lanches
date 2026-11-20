@@ -5,153 +5,209 @@
 (() => {
   'use strict';
 
+  const CATALOG_VERSION = '2.0-classic';
+
   const STORAGE_KEYS = {
-    PRODUCTS: 'topLanches_products_v1',
-    ORDERS: 'topLanches_orders_v1',
-    CART: 'topLanches_cart_v1',
+    PRODUCTS: 'topLanches_products_v2',
+    ORDERS: 'topLanches_orders_v2',
+    CART: 'topLanches_cart_v2',
+    CATALOG_VERSION: 'topLanches_catalog_version',
     ADMIN_AUTH: 'topLanches_admin_session_v1',
   };
 
   // Senha padrão para demonstração do MVP
   const ADMIN_PASSWORD = 'top123';
   const DELIVERY_FEE = 6.9;
-  const CATEGORY_ORDER = ['Hambúrgueres', 'Combos', 'Porções', 'Bebidas'];
+  const CATEGORY_ORDER = ['Lanches Clássicos', 'Combos', 'Porções', 'Bebidas'];
   const ALLOWED_ORDER_STATUSES = ['Preparando', 'Em entrega', 'Entregue', 'Cancelado'];
 
   const STOCK_IMAGES = {
-    baconDuplo: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
-    classic: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
-    chicken: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=800&q=80',
-    cheddar: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80',
+    xBurguer: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
+    xSalada: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
+    xBacon: 'https://images.unsplash.com/photo-1683882330385-e9270342b306?auto=format&fit=crop&w=800&q=80',
+    xEgg: 'https://images.unsplash.com/photo-1559671743-c67a25c1c665?auto=format&fit=crop&w=800&q=80',
+    xTudo: 'https://images.unsplash.com/photo-1700835880369-467ebff9d324?auto=format&fit=crop&w=800&q=80',
+    hotDog: 'https://images.unsplash.com/photo-1669661825279-280c2df3a3a3?auto=format&fit=crop&w=800&q=80',
+    mistoQuente: 'https://images.unsplash.com/photo-1788843304341-7edbe347ba66?auto=format&fit=crop&w=800&q=80',
     combo: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=80',
     fries: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80',
-    milkshake: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=800&q=80',
+    onionRings: 'https://images.unsplash.com/photo-1630825533949-74f62f54553a?auto=format&fit=crop&w=800&q=80',
     soda: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80',
+    orangeJuice: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=800&q=80',
+    milkshake: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=800&q=80',
   };
 
   // =========================================================
-  // DADOS FANTASIA INICIAIS (CARDÁPIO)
+  // DADOS FANTASIA INICIAIS (CARDÁPIO CLÁSSICO)
   // =========================================================
   const DEFAULT_PRODUCTS = [
     {
       id: 'prod-1',
-      name: 'Top Bacon Duplo',
-      category: 'Hambúrgueres',
-      price: 36.9,
-      description: 'Dois smash burgers 100g, cheddar duplo derretido, bacon crocante, cebola caramelizada e molho especial no brioche.',
-      image: STOCK_IMAGES.baconDuplo,
-      badge: 'Mais Pedido',
-      active: true,
-      customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Cebola caramelizada', 'Bacon', 'Cheddar', 'Molho especial'],
-    },
-    {
-      id: 'prod-2',
-      name: 'Top Clássico Artesanal',
-      category: 'Hambúrgueres',
-      price: 29.9,
-      description: 'Blend bovino 160g na chapa, queijo cheddar, alface americana, tomate maduro, picles e maionese verde da casa.',
-      image: STOCK_IMAGES.classic,
+      name: 'X-Burguer',
+      category: 'Lanches Clássicos',
+      price: 18.9,
+      description: 'Pão de hambúrguer tradicional, hambúrguer bovino na chapa e queijo mussarela derretido.',
+      image: STOCK_IMAGES.xBurguer,
       badge: 'Clássico',
       active: true,
       customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Alface', 'Tomate', 'Picles', 'Cheddar', 'Maionese verde'],
+      customizationOptions: ['Queijo', 'Maionese'],
+    },
+    {
+      id: 'prod-2',
+      name: 'X-Salada',
+      category: 'Lanches Clássicos',
+      price: 21.9,
+      description: 'Pão de hambúrguer, carne na chapa, queijo mussarela, alface, tomate fresco e maionese da casa.',
+      image: STOCK_IMAGES.xSalada,
+      badge: 'Mais Pedido',
+      active: true,
+      customizationPrompt: 'Gostaria de retirar algo?',
+      customizationOptions: ['Alface', 'Tomate', 'Cebola', 'Maionese'],
     },
     {
       id: 'prod-3',
-      name: 'Top Crispy Chicken',
-      category: 'Hambúrgueres',
-      price: 31.5,
-      description: 'Sobrecoxa empanada super crocante, salada coleslaw cremosa, picles artesanal e molho honey mustard no brioche.',
-      image: STOCK_IMAGES.chicken,
-      badge: 'Novo',
-      active: true,
-      customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Salada coleslaw', 'Picles', 'Molho honey mustard'],
-    },
-    {
-      id: 'prod-4',
-      name: 'Top Smash Cheddar',
-      category: 'Hambúrgueres',
-      price: 26.9,
-      description: 'Smash burger 120g com crostinha perfeita, creme de cheddar inglês e cebola roxa grelhada no pão brioche.',
-      image: STOCK_IMAGES.cheddar,
+      name: 'X-Bacon',
+      category: 'Lanches Clássicos',
+      price: 25.9,
+      description: 'Pão de hambúrguer, hambúrguer bovino, queijo derretido, fatias de bacon crocante, alface e tomate.',
+      image: STOCK_IMAGES.xBacon,
       badge: '',
       active: true,
       customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Cebola roxa', 'Creme de cheddar'],
+      customizationOptions: ['Bacon', 'Alface', 'Tomate', 'Maionese'],
+    },
+    {
+      id: 'prod-4',
+      name: 'X-Egg',
+      category: 'Lanches Clássicos',
+      price: 23.9,
+      description: 'Pão de hambúrguer, carne na chapa, queijo mussarela, ovo frito na chapa, alface, tomate e maionese.',
+      image: STOCK_IMAGES.xEgg,
+      badge: '',
+      active: true,
+      customizationPrompt: 'Gostaria de retirar algo?',
+      customizationOptions: ['Ovo', 'Alface', 'Tomate', 'Maionese'],
     },
     {
       id: 'prod-5',
-      name: 'Combo Top Casal',
+      name: 'X-Tudo',
+      category: 'Lanches Clássicos',
+      price: 29.9,
+      description: 'O completo da casa: pão tradicional, hambúrguer, queijo, presunto, bacon, ovo, milho, batata palha, alface e tomate.',
+      image: STOCK_IMAGES.xTudo,
+      badge: 'Mais Pedido',
+      active: true,
+      customizationPrompt: 'Gostaria de retirar algo?',
+      customizationOptions: ['Bacon', 'Ovo', 'Presunto', 'Milho', 'Batata palha', 'Alface', 'Tomate'],
+    },
+    {
+      id: 'prod-6',
+      name: 'Cachorro-Quente Tradicional',
+      category: 'Lanches Clássicos',
+      price: 16.9,
+      description: 'Pão macio de hot dog, duas salsichas, molho de tomate caseiro, milho, ervilha, batata palha e queijo ralado.',
+      image: STOCK_IMAGES.hotDog,
+      badge: '',
+      active: true,
+      customizationPrompt: 'Gostaria de retirar algo?',
+      customizationOptions: ['Milho', 'Ervilha', 'Batata palha', 'Queijo ralado', 'Molho'],
+    },
+    {
+      id: 'prod-7',
+      name: 'Misto Quente na Chapa',
+      category: 'Lanches Clássicos',
+      price: 14.5,
+      description: 'Pão de forma dourado na chapa com manteiga, presunto fatiado e queijo mussarela bem derretido.',
+      image: STOCK_IMAGES.mistoQuente,
+      badge: '',
+      active: true,
+      customizationPrompt: 'Gostaria de retirar algo?',
+      customizationOptions: ['Presunto', 'Queijo', 'Manteiga na chapa'],
+    },
+    {
+      id: 'prod-8',
+      name: 'Combo X-Salada + Fritas + Refri',
       category: 'Combos',
-      price: 74.9,
-      description: '2 Top Clássico Artesanal + 1 Batata Cheddar & Bacon média + 2 refrigerantes lata 350ml à sua escolha.',
+      price: 32.9,
+      description: '1 X-Salada tradicional + 1 porção individual de batata frita crocante + 1 refrigerante lata 350ml.',
       image: STOCK_IMAGES.combo,
       badge: 'Combo',
       active: true,
       customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Cebola', 'Tomate', 'Alface', 'Picles', 'Bacon na batata'],
+      customizationOptions: ['Alface', 'Tomate', 'Maionese', 'Gelo e limão'],
     },
     {
-      id: 'prod-6',
-      name: 'Combo Individual Top',
+      id: 'prod-9',
+      name: 'Combo X-Bacon + Fritas + Refri',
       category: 'Combos',
-      price: 44.9,
-      description: '1 Top Bacon Duplo + 1 porção individual de batatas fritas crocantes + 1 refrigerante lata gelado.',
+      price: 36.9,
+      description: '1 X-Bacon caprichado + 1 porção individual de batata frita crocante + 1 refrigerante lata 350ml.',
       image: STOCK_IMAGES.combo,
       badge: 'Oferta',
       active: true,
       customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Cebola caramelizada', 'Bacon', 'Molho especial'],
+      customizationOptions: ['Bacon', 'Alface', 'Tomate', 'Maionese'],
     },
     {
-      id: 'prod-7',
-      name: 'Batata Cheddar & Bacon',
+      id: 'prod-10',
+      name: 'Batata Frita Tradicional (G)',
       category: 'Porções',
-      price: 24.9,
-      description: 'Porção generosa de batatas fritas sequinhas cobertas com molho cheddar cremoso, cubos de bacon e cebolinha.',
+      price: 18.9,
+      description: 'Porção generosa de batata palito frita na hora, sequinha e com sal na medida. Acompanha catchup e maionese.',
       image: STOCK_IMAGES.fries,
       badge: 'Mais Pedido',
       active: true,
       customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Cheddar', 'Bacon', 'Cebolinha'],
+      customizationOptions: ['Sal', 'Catchup', 'Maionese'],
     },
     {
-      id: 'prod-8',
-      name: 'Fritas da Casa (G)',
+      id: 'prod-11',
+      name: 'Anéis de Cebola Crocantes',
       category: 'Porções',
-      price: 17.9,
-      description: 'Batatas palito crocantes temperadas com páprica defumada e alecrim. Acompanha maionese artesanal.',
-      image: STOCK_IMAGES.fries,
+      price: 21.9,
+      description: 'Porção de cebolas empanadas fritas até ficarem douradas e crocantes. Acompanha molho rosê da casa.',
+      image: STOCK_IMAGES.onionRings,
       badge: '',
       active: true,
       customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Páprica e alecrim', 'Maionese artesanal'],
+      customizationOptions: ['Molho rosê'],
     },
     {
-      id: 'prod-9',
-      name: 'Milkshake Brownie 400ml',
-      category: 'Bebidas',
-      price: 21.9,
-      description: 'Sorvete artesanal de chocolate belga batido com pedaços de brownie, chantilly e calda cremosa.',
-      image: STOCK_IMAGES.milkshake,
-      badge: 'Novo',
-      active: true,
-      customizationPrompt: 'Gostaria de retirar algo?',
-      customizationOptions: ['Chantilly', 'Calda extra'],
-    },
-    {
-      id: 'prod-10',
+      id: 'prod-12',
       name: 'Refrigerante Lata 350ml',
       category: 'Bebidas',
-      price: 7.5,
-      description: 'Coca-Cola, Guaraná Antarctica ou Sprite bem gelados (informe o sabor nas observações).',
+      price: 6.5,
+      description: 'Coca-Cola, Guaraná Antarctica, Fanta Laranja ou Sprite bem gelados (informe o sabor nas observações).',
       image: STOCK_IMAGES.soda,
       badge: '',
       active: true,
       customizationPrompt: 'Preferência ou retirada:',
       customizationOptions: ['Gelo e limão'],
+    },
+    {
+      id: 'prod-13',
+      name: 'Suco Natural de Laranja 400ml',
+      category: 'Bebidas',
+      price: 9.9,
+      description: 'Suco de laranja feito na hora, servido bem gelado.',
+      image: STOCK_IMAGES.orangeJuice,
+      badge: '',
+      active: true,
+      customizationPrompt: 'Preferência ou retirada:',
+      customizationOptions: ['Açúcar', 'Gelo'],
+    },
+    {
+      id: 'prod-14',
+      name: 'Milk-Shake Tradicional 400ml',
+      category: 'Bebidas',
+      price: 16.9,
+      description: 'Milk-shake cremoso de chocolate ou morango batido na hora com cobertura e chantilly.',
+      image: STOCK_IMAGES.milkshake,
+      badge: '',
+      active: true,
+      customizationPrompt: 'Gostaria de retirar algo?',
+      customizationOptions: ['Chantilly', 'Calda'],
     },
   ];
 
@@ -167,14 +223,14 @@
       deliveryType: 'Entrega',
       address: 'Rua das Acácias, 410 - Jardins',
       paymentMethod: 'Pix',
-      notes: 'Sem cebola no clássico',
+      notes: 'Sem cebola no X-Salada',
       deliveryFee: 6.9,
-      subtotal: 66.8,
-      total: 73.7,
+      subtotal: 51.8,
+      total: 58.7,
       status: 'Preparando',
       items: [
-        { productId: 'prod-1', name: 'Top Bacon Duplo', qty: 1, price: 36.9 },
-        { productId: 'prod-2', name: 'Top Clássico Artesanal', qty: 1, price: 29.9 },
+        { productId: 'prod-5', name: 'X-Tudo', qty: 1, price: 29.9 },
+        { productId: 'prod-2', name: 'X-Salada', qty: 1, price: 21.9 },
       ],
     },
     {
@@ -187,12 +243,12 @@
       paymentMethod: 'Cartão de Crédito',
       notes: '',
       deliveryFee: 6.9,
-      subtotal: 96.8,
-      total: 103.7,
+      subtotal: 53.8,
+      total: 60.7,
       status: 'Em entrega',
       items: [
-        { productId: 'prod-5', name: 'Combo Top Casal', qty: 1, price: 74.9 },
-        { productId: 'prod-9', name: 'Milkshake Brownie 400ml', qty: 1, price: 21.9 },
+        { productId: 'prod-9', name: 'Combo X-Bacon + Fritas + Refri', qty: 1, price: 36.9 },
+        { productId: 'prod-14', name: 'Milk-Shake Tradicional 400ml', qty: 1, price: 16.9 },
       ],
     },
     {
@@ -205,12 +261,12 @@
       paymentMethod: 'Pix',
       notes: 'Maionese extra',
       deliveryFee: 0,
-      subtotal: 56.4,
-      total: 56.4,
+      subtotal: 44.8,
+      total: 44.8,
       status: 'Entregue',
       items: [
-        { productId: 'prod-3', name: 'Top Crispy Chicken', qty: 1, price: 31.5 },
-        { productId: 'prod-7', name: 'Batata Cheddar & Bacon', qty: 1, price: 24.9 },
+        { productId: 'prod-3', name: 'X-Bacon', qty: 1, price: 25.9 },
+        { productId: 'prod-10', name: 'Batata Frita Tradicional (G)', qty: 1, price: 18.9 },
       ],
     },
     {
@@ -223,11 +279,11 @@
       paymentMethod: 'Cartão de Débito',
       notes: '',
       deliveryFee: 6.9,
-      subtotal: 89.8,
-      total: 96.7,
+      subtotal: 65.8,
+      total: 72.7,
       status: 'Entregue',
       items: [
-        { productId: 'prod-6', name: 'Combo Individual Top', qty: 2, price: 44.9 },
+        { productId: 'prod-8', name: 'Combo X-Salada + Fritas + Refri', qty: 2, price: 32.9 },
       ],
     },
     {
@@ -240,11 +296,12 @@
       paymentMethod: 'Pix',
       notes: '',
       deliveryFee: 6.9,
-      subtotal: 73.8,
-      total: 80.7,
+      subtotal: 69.7,
+      total: 76.6,
       status: 'Entregue',
       items: [
-        { productId: 'prod-1', name: 'Top Bacon Duplo', qty: 2, price: 36.9 },
+        { productId: 'prod-4', name: 'X-Egg', qty: 2, price: 23.9 },
+        { productId: 'prod-11', name: 'Anéis de Cebola Crocantes', qty: 1, price: 21.9 },
       ],
     },
     {
@@ -257,12 +314,13 @@
       paymentMethod: 'Dinheiro',
       notes: 'Troco para R$ 50',
       deliveryFee: 0,
-      subtotal: 34.4,
-      total: 34.4,
+      subtotal: 42.3,
+      total: 42.3,
       status: 'Entregue',
       items: [
-        { productId: 'prod-4', name: 'Top Smash Cheddar', qty: 1, price: 26.9 },
-        { productId: 'prod-10', name: 'Refrigerante Lata 350ml', qty: 1, price: 7.5 },
+        { productId: 'prod-1', name: 'X-Burguer', qty: 1, price: 18.9 },
+        { productId: 'prod-6', name: 'Cachorro-Quente Tradicional', qty: 1, price: 16.9 },
+        { productId: 'prod-12', name: 'Refrigerante Lata 350ml', qty: 1, price: 6.5 },
       ],
     },
   ];
@@ -275,35 +333,46 @@
     if (/^(https?:\/\/|\.\/|\/)/i.test(trimmed)) {
       return trimmed;
     }
-    return STOCK_IMAGES.classic;
+    return STOCK_IMAGES.xSalada;
   }
 
   function defaultOptionsForCategory(category) {
-    if (category === 'Hambúrgueres' || category === 'Combos') {
-      return ['Cebola', 'Tomate', 'Alface', 'Picles', 'Bacon', 'Molho'];
+    if (category === 'Lanches Clássicos' || category === 'Combos') {
+      return ['Alface', 'Tomate', 'Cebola', 'Maionese', 'Catchup', 'Mostarda'];
     }
     if (category === 'Porções') {
-      return ['Cheddar', 'Bacon', 'Molho'];
+      return ['Sal', 'Catchup', 'Maionese'];
     }
     if (category === 'Bebidas') {
       return ['Gelo e limão'];
     }
-    return ['Cebola', 'Molho'];
+    return ['Cebola', 'Maionese'];
+  }
+
+  function roundCurrency(value) {
+    return Math.round((Number(value) || 0) * 100) / 100;
+  }
+
+  function normalizeText(str) {
+    return String(str ?? '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
   }
 
   function parseNumericPrice(value) {
     if (typeof value === 'number') {
-      return Number.isFinite(value) && value >= 0 ? Math.round(value * 100) / 100 : 0;
+      return Number.isFinite(value) && value >= 0 ? roundCurrency(value) : 0;
     }
     const cleaned = String(value ?? '').trim().replace(/\s+/g, '').replace(',', '.');
     const num = Number(cleaned);
-    return Number.isFinite(num) && num >= 0 ? Math.round(num * 100) / 100 : 0;
+    return Number.isFinite(num) && num >= 0 ? roundCurrency(num) : 0;
   }
 
   function normalizeProduct(raw, index = 0) {
     const id = String(raw?.id ?? `prod-${Date.now()}-${index}`);
     const defaultMatch = DEFAULT_PRODUCTS.find((d) => d.id === id);
-    const category = String(raw?.category ?? defaultMatch?.category ?? 'Hambúrgueres').trim() || 'Hambúrgueres';
+    const category = String(raw?.category ?? defaultMatch?.category ?? 'Lanches Clássicos').trim() || 'Lanches Clássicos';
     const price = parseNumericPrice(raw?.price ?? defaultMatch?.price ?? 0);
     const options = Array.isArray(raw?.customizationOptions)
       ? raw.customizationOptions.map((o) => String(o).trim()).filter(Boolean)
@@ -357,6 +426,64 @@
     };
   }
 
+  function normalizeOrder(raw, index = 0) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || !Array.isArray(raw.items)) {
+      return null;
+    }
+    const id = String(raw.id ?? '').trim() || `TL-${1001 + index}`;
+    const status = ALLOWED_ORDER_STATUSES.includes(raw.status) ? raw.status : 'Preparando';
+    const deliveryType =
+      raw.deliveryType === 'Retirada' || raw.deliveryType === 'Entrega' ? raw.deliveryType : 'Entrega';
+    const paymentMethod = String(raw.paymentMethod ?? '').trim() || 'Pix';
+    const items = raw.items
+      .filter((it) => it && typeof it === 'object' && !Array.isArray(it))
+      .map((it) => ({
+        productId: String(it.productId ?? ''),
+        name: String(it.name ?? 'Item').trim() || 'Item',
+        qty: Math.max(1, parseInt(it.qty, 10) || 1),
+        price: parseNumericPrice(it.price ?? 0),
+        ...(it.customization ? { customization: String(it.customization).trim() } : {}),
+      }));
+
+    const itemsSubtotal = roundCurrency(items.reduce((acc, it) => acc + it.price * it.qty, 0));
+    const deliveryFee =
+      raw.deliveryFee !== undefined && raw.deliveryFee !== null && raw.deliveryFee !== ''
+        ? parseNumericPrice(raw.deliveryFee)
+        : 0;
+    const rawSubtotalNum =
+      raw.subtotal !== undefined && raw.subtotal !== null && raw.subtotal !== ''
+        ? Number(String(raw.subtotal).replace(',', '.'))
+        : NaN;
+    const subtotal = Number.isFinite(rawSubtotalNum) && rawSubtotalNum >= 0
+      ? roundCurrency(rawSubtotalNum)
+      : itemsSubtotal;
+    const rawTotalNum =
+      raw.total !== undefined && raw.total !== null && raw.total !== ''
+        ? Number(String(raw.total).replace(',', '.'))
+        : NaN;
+    const total = Number.isFinite(rawTotalNum) && rawTotalNum >= 0
+      ? roundCurrency(rawTotalNum)
+      : roundCurrency(subtotal + deliveryFee);
+
+    return {
+      id,
+      createdAt: String(raw.createdAt ?? '').trim() || formatNow(),
+      customerName: String(raw.customerName ?? '').trim() || 'Cliente',
+      phone: String(raw.phone ?? '').trim(),
+      deliveryType,
+      address:
+        String(raw.address ?? '').trim() ||
+        (deliveryType === 'Retirada' ? 'Retirada no balcão' : ''),
+      paymentMethod,
+      notes: String(raw.notes ?? '').trim(),
+      deliveryFee,
+      subtotal,
+      total,
+      status,
+      items,
+    };
+  }
+
   function formatCustomizationText(entry) {
     if (!entry) return '';
     const parts = [];
@@ -370,6 +497,19 @@
     return parts.join(' • ');
   }
 
+  function migrateCatalogStorage() {
+    try {
+      if (localStorage.getItem(STORAGE_KEYS.CATALOG_VERSION) !== CATALOG_VERSION) {
+        localStorage.removeItem('topLanches_products_v1');
+        localStorage.removeItem('topLanches_orders_v1');
+        localStorage.removeItem('topLanches_cart_v1');
+        localStorage.setItem(STORAGE_KEYS.CATALOG_VERSION, CATALOG_VERSION);
+      }
+    } catch {
+      // Ignore storage access errors
+    }
+  }
+
   function loadStorage(key, fallback) {
     try {
       const raw = localStorage.getItem(key);
@@ -381,12 +521,32 @@
     }
   }
 
+  migrateCatalogStorage();
+
   let products = loadStorage(STORAGE_KEYS.PRODUCTS, DEFAULT_PRODUCTS).map((p, i) => normalizeProduct(p, i));
   if (!products.length) {
     products = structuredClone(DEFAULT_PRODUCTS);
   }
-  let orders = loadStorage(STORAGE_KEYS.ORDERS, DEFAULT_ORDERS);
-  let cart = loadStorage(STORAGE_KEYS.CART, []).map(normalizeCartEntry).filter(Boolean);
+  let orders = loadStorage(STORAGE_KEYS.ORDERS, DEFAULT_ORDERS)
+    .map((o, i) => normalizeOrder(o, i))
+    .filter(Boolean);
+  const rawCart = loadStorage(STORAGE_KEYS.CART, []);
+  let cart = rawCart
+    .map(normalizeCartEntry)
+    .filter(Boolean)
+    .filter((entry) => products.some((p) => String(p.id) === String(entry.productId)));
+  if (cart.length !== rawCart.length) {
+    saveCart();
+  }
+
+  function pruneOrphanCartEntries() {
+    const existingIds = new Set(products.map((p) => String(p.id)));
+    const nextCart = cart.filter((entry) => existingIds.has(String(entry.productId)));
+    if (nextCart.length !== cart.length) {
+      cart = nextCart;
+      saveCart();
+    }
+  }
 
   let selectedCategory = 'Todos';
   let searchQuery = '';
@@ -537,24 +697,6 @@
     return cart.reduce((sum, entry) => (String(entry.productId) === targetId ? sum + entry.qty : sum), 0);
   }
 
-  function syncHeroFeatured() {
-    const featured = products.find((p) => p.id === 'prod-1') || products.find((p) => p.active) || products[0];
-    const card = document.getElementById('hero-featured-card');
-    const imgEl = document.getElementById('hero-featured-img');
-    const nameEl = document.getElementById('hero-featured-name');
-    const priceEl = document.getElementById('hero-featured-price');
-    if (!card || !featured) return;
-
-    card.dataset.featuredId = featured.id;
-    card.setAttribute('aria-label', `Ver detalhes do destaque ${featured.name}`);
-    if (imgEl) {
-      imgEl.src = featured.image;
-      imgEl.alt = `${featured.name} — Top Lanches`;
-    }
-    if (nameEl) nameEl.textContent = featured.name;
-    if (priceEl) priceEl.textContent = formatBRL(featured.price);
-  }
-
   function renderProductCardHTML(p) {
     const qty = getCartQty(p.id);
     const ctaLabel = !p.active ? 'Ver Detalhes' : 'Personalizar';
@@ -564,14 +706,18 @@
       <article class="product-card ${p.active ? '' : 'sold-out'}" data-product-id="${escapeHTML(p.id)}" tabindex="0" role="button" aria-label="Selecionar ${escapeHTML(p.name)}">
         <div class="product-thumb">
           <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy" />
-          ${p.badge ? `<span class="product-badge">${escapeHTML(p.badge)}</span>` : ''}
           ${!p.active ? `<div class="sold-out-overlay">Esgotado</div>` : ''}
         </div>
         <div class="product-body">
-          <span class="product-category-label">${escapeHTML(p.category)}</span>
-          <h3 class="product-title">${escapeHTML(p.name)}</h3>
-          <p class="product-desc">${escapeHTML(p.description)}</p>
-          ${p.active && qty > 0 ? `<div><span class="product-card-in-cart">${qty} no pedido</span></div>` : ''}
+          <div class="product-info">
+            <div class="product-meta-inline">
+              <span class="product-category-label">${escapeHTML(p.category)}</span>
+              ${p.badge ? `<span class="product-badge">${escapeHTML(p.badge)}</span>` : ''}
+              ${p.active && qty > 0 ? `<span class="product-card-in-cart">${qty} no pedido</span>` : ''}
+            </div>
+            <h3 class="product-title">${escapeHTML(p.name)}</h3>
+            <p class="product-desc">${escapeHTML(p.description)}</p>
+          </div>
           <div class="product-footer">
             <span class="product-price">${formatBRL(p.price)}</span>
             <button type="button" class="${ctaClass}" data-action="detail" data-id="${escapeHTML(p.id)}">${ctaLabel}</button>
@@ -585,14 +731,14 @@
     const sectionsRoot = document.getElementById('menu-grid');
     const emptyEl = document.getElementById('menu-empty');
 
-    const q = searchQuery.trim().toLowerCase();
+    const q = normalizeText(searchQuery.trim());
     const filtered = products.filter((p) => {
       const matchesCat = selectedCategory === 'Todos' || p.category === selectedCategory;
       const matchesQuery =
         !q ||
-        p.name.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q);
+        normalizeText(p.name).includes(q) ||
+        normalizeText(p.description).includes(q) ||
+        normalizeText(p.category).includes(q);
       return matchesCat && matchesQuery;
     });
 
@@ -686,16 +832,15 @@
         .map((opt) => {
           const isSelected = detailRemovedOptions.has(opt);
           return `
-            <button
-              type="button"
-              class="removal-chip ${isSelected ? 'selected' : ''}"
-              data-removal-option="${escapeHTML(opt)}"
-              aria-pressed="${isSelected}"
-              ${!prod.active ? 'disabled' : ''}
-            >
-              <span>${isSelected ? '✓' : '✕'}</span>
+            <label class="removal-checkbox ${isSelected ? 'selected' : ''} ${!prod.active ? 'disabled' : ''}">
+              <input
+                type="checkbox"
+                data-removal-option="${escapeHTML(opt)}"
+                ${isSelected ? 'checked' : ''}
+                ${!prod.active ? 'disabled' : ''}
+              />
               <span>Sem ${escapeHTML(opt)}</span>
-            </button>
+            </label>
           `;
         })
         .join('');
@@ -810,9 +955,10 @@
       }
     });
 
+    subtotal = roundCurrency(subtotal);
     const deliveryType = getSelectedDeliveryType();
-    const deliveryFee = validItems.length > 0 && deliveryType === 'Entrega' ? DELIVERY_FEE : 0;
-    const total = subtotal + deliveryFee;
+    const deliveryFee = roundCurrency(validItems.length > 0 && deliveryType === 'Entrega' ? DELIVERY_FEE : 0);
+    const total = roundCurrency(subtotal + deliveryFee);
 
     return { itemCount, subtotal, deliveryFee, total, validItems, deliveryType };
   }
@@ -1013,7 +1159,6 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
     renderCategoryTabs();
     renderMenu();
-    syncHeroFeatured();
     if (activeProductId) {
       renderProductDetail();
     }
@@ -1249,7 +1394,7 @@
     const prodId = document.getElementById('manual-product').value;
     const qty = Math.max(1, parseInt(document.getElementById('manual-qty').value || '1', 10));
     const prod = products.find((p) => String(p.id) === String(prodId));
-    const total = prod ? prod.price * qty : 0;
+    const total = roundCurrency(prod ? prod.price * qty : 0);
     document.getElementById('manual-total-display').textContent = formatBRL(total);
   }
 
@@ -1262,7 +1407,7 @@
     const qty = Math.max(1, parseInt(document.getElementById('manual-qty').value || '1', 10));
     const customerName = document.getElementById('manual-customer').value.trim() || 'Cliente Balcão';
     const paymentMethod = document.getElementById('manual-payment').value;
-    const total = prod.price * qty;
+    const total = roundCurrency(prod.price * qty);
 
     const sale = {
       id: nextOrderCode(),
@@ -1324,7 +1469,6 @@
     renderAdminDashboard();
     renderCategoryTabs();
     renderMenu();
-    syncHeroFeatured();
     if (activeProductId) {
       const stillExists = products.some((p) => String(p.id) === String(activeProductId));
       if (stillExists) {
@@ -1420,10 +1564,10 @@
       document.getElementById('product-modal-title').textContent = 'Novo Produto';
       document.getElementById('product-id').value = '';
       document.getElementById('product-custom-prompt').value = 'Gostaria de retirar algo?';
-      document.getElementById('product-custom-options').value = 'Cebola, Tomate, Alface, Picles, Bacon, Molho';
+      document.getElementById('product-custom-options').value = 'Alface, Tomate, Cebola, Maionese, Catchup, Mostarda';
       document.getElementById('product-active').checked = true;
-      presetSelect.value = STOCK_IMAGES.classic;
-      urlInput.value = STOCK_IMAGES.classic;
+      presetSelect.value = STOCK_IMAGES.xSalada;
+      urlInput.value = STOCK_IMAGES.xSalada;
     }
 
     openModal('product-modal');
@@ -1440,7 +1584,7 @@
     const badge = document.getElementById('product-badge').value.trim();
     const description = document.getElementById('product-description').value.trim();
     const rawImage = document.getElementById('product-image-url').value.trim();
-    const image = sanitizeImageUrl(rawImage || STOCK_IMAGES.classic);
+    const image = sanitizeImageUrl(rawImage || STOCK_IMAGES.xSalada);
     const active = document.getElementById('product-active').checked;
     const customizationPrompt =
       document.getElementById('product-custom-prompt').value.trim() || 'Gostaria de retirar algo?';
@@ -1530,7 +1674,7 @@
       (e) => {
         if (e.target && e.target.tagName === 'IMG' && !e.target.dataset.fallbackApplied) {
           e.target.dataset.fallbackApplied = '1';
-          e.target.src = STOCK_IMAGES.classic;
+          e.target.src = STOCK_IMAGES.xSalada;
         }
       },
       true
@@ -1598,29 +1742,12 @@
       const target = document.getElementById('cat-combos') || document.getElementById('cardapio');
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     };
-    document.getElementById('hero-combo-btn').addEventListener('click', jumpToCombos);
     document.getElementById('nav-combos-link').addEventListener('click', (e) => {
       e.preventDefault();
       jumpToCombos();
     });
 
-    // Hero featured card -> open detail view
-    const heroCard = document.getElementById('hero-featured-card');
-    if (heroCard) {
-      const openFeatured = () => {
-        const fid = heroCard.dataset.featuredId || 'prod-1';
-        openProductDetail(fid);
-      };
-      heroCard.addEventListener('click', openFeatured);
-      heroCard.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openFeatured();
-        }
-      });
-    }
-
-    // Menu cards -> open dedicated product detail view
+    // Menu rows -> open dedicated product detail view
     const menuGridEl = document.getElementById('menu-grid');
     menuGridEl.addEventListener('click', (e) => {
       const card = e.target.closest('.product-card');
@@ -1641,16 +1768,19 @@
       closeProductDetail(true);
     });
 
-    document.getElementById('detail-removal-options').addEventListener('click', (e) => {
-      const chip = e.target.closest('[data-removal-option]');
-      if (!chip) return;
-      const opt = chip.dataset.removalOption;
-      if (detailRemovedOptions.has(opt)) {
-        detailRemovedOptions.delete(opt);
-      } else {
+    document.getElementById('detail-removal-options').addEventListener('change', (e) => {
+      const checkbox = e.target.closest('input[type="checkbox"][data-removal-option]');
+      if (!checkbox) return;
+      const opt = checkbox.dataset.removalOption;
+      if (checkbox.checked) {
         detailRemovedOptions.add(opt);
+      } else {
+        detailRemovedOptions.delete(opt);
       }
-      renderProductDetail();
+      const label = checkbox.closest('.removal-checkbox');
+      if (label) {
+        label.classList.toggle('selected', checkbox.checked);
+      }
     });
 
     document.getElementById('detail-qty-dec').addEventListener('click', () => {
@@ -1790,6 +1920,7 @@
         if (!confirm(`Excluir "${prod.name}" do cardápio?`)) return;
         products = products.filter((p) => String(p.id) !== String(prod.id));
         saveProducts();
+        pruneOrphanCartEntries();
         syncAllViewsAfterProductChange();
         showToast(`Produto "${prod.name}" excluído.`);
       }
@@ -1841,7 +1972,6 @@
   function init() {
     renderCategoryTabs();
     renderMenu();
-    syncHeroFeatured();
     renderCart();
     bindEvents();
   }
